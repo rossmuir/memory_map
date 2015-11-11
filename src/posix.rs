@@ -42,7 +42,7 @@ impl MmapInner {
 
         let ptr = unsafe {
             libc::mmap(ptr::null_mut(),
-                       len,
+                       len as usize,
                        prot.as_prot(),
                        prot.as_flag(),
                        std::os::unix::io::AsRawFd::as_raw_fd(&file),
@@ -63,7 +63,7 @@ impl MmapInner {
     pub fn anonymous(len: usize, prot: Protection) -> io::Result<MmapInner> {
         let ptr = unsafe {
             libc::mmap(ptr::null_mut(),
-                       len as libc::size_t,
+                       len, 
                        prot.as_prot(),
                        prot.as_flag() | libc::MAP_ANON,
                        -1,
@@ -81,7 +81,7 @@ impl MmapInner {
     }
 
     pub fn flush(&mut self) -> io::Result<()> {
-        let result = unsafe { libc::msync(self.ptr, self.len as libc::size_t, libc::MS_SYNC) };
+        let result = unsafe { libc::msync(self.ptr, self.len, libc::MS_SYNC) };
         if result == 0 {
             Ok(())
         } else {
@@ -90,7 +90,7 @@ impl MmapInner {
     }
 
     pub fn flush_async(&mut self) -> io::Result<()> {
-        let result = unsafe { libc::msync(self.ptr, self.len as libc::size_t, libc::MS_ASYNC) };
+        let result = unsafe { libc::msync(self.ptr, self.len, libc::MS_ASYNC) };
         if result == 0 {
             Ok(())
         } else {
@@ -106,7 +106,7 @@ impl MmapInner {
 impl Drop for MmapInner {
     fn drop(&mut self) {
         unsafe {
-            assert!(libc::munmap(self.ptr, self.len as libc::size_t) == 0,
+            assert!(libc::munmap(self.ptr, self.len) == 0,
                     "unable to unmap mmap: {}", io::Error::last_os_error());
         }
     }

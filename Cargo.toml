@@ -10,7 +10,7 @@ license = "GPL-3.0"
 homepage = "http://maidsafe.net"
 
 [dependencies]
-kernel32-sys = "*"
+kernel32-sys = "0.1.4"
 libc = "*"
 winapi = "*"
 
