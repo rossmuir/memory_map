@@ -1,6 +1,6 @@
 [package]
 name = "memory_map"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Dan Burkert <dan@danburkert.com>", "MaidSafe Developers <dev@maidsafe.net>"]
 description = "Memory mapped files."
 documentation = "http://maidsafe.net/memory_map/latest"
@@ -10,9 +10,9 @@ license = "GPL-3.0"
 homepage = "http://maidsafe.net"
 
 [dependencies]
-kernel32-sys = "0.1.4"
-libc = "*"
-winapi = "*"
+kernel32-sys = "~0.2.1"
+libc = "~0.2.2"
+winapi = "~0.2.5"
 
 [dev-dependencies]
-tempdir = "*"
+tempdir = "~0.3.4"
